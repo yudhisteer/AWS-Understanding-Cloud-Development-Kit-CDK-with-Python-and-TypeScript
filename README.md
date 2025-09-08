@@ -9,6 +9,19 @@
 
 <img width="1885" height="673" alt="image" src="https://github.com/user-attachments/assets/c677f4a2-c494-4d0f-8b7b-c09afbc239e5" />
 
+<img width="1888" height="786" alt="image" src="https://github.com/user-attachments/assets/2b3518d3-6a4b-4746-9772-207df84c566a" />
+
+<img width="1890" height="680" alt="image" src="https://github.com/user-attachments/assets/5e9e6d35-0293-40a0-a579-cb0b4aa7ce32" />
+
+<img width="1881" height="776" alt="image" src="https://github.com/user-attachments/assets/e78f01ee-fe51-4021-94d5-8b2ed94daff9" />
+
+
+<img width="1889" height="468" alt="image" src="https://github.com/user-attachments/assets/de4c516f-3d13-4982-855a-346fd3ea0307" />
+
+
+<img width="1881" height="359" alt="image" src="https://github.com/user-attachments/assets/c8ca73ac-a1e0-4edd-b012-e11cf06261d6" />
+
+
 
 ## Some useful commands: 
 
