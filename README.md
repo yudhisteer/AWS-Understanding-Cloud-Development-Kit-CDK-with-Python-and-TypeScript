@@ -25,3 +25,9 @@ cdk diff: show the differences between the current stack and the stack in the AW
 cdk docs: open the CDK documentation
 
 cdk list: list all the stacks in the AWS account
+
+
+
+## References:
+- https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Fn.html
+- https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html
