@@ -27,7 +27,12 @@ def handler(event, context):
     if not method:
         return {
             "statusCode": 400,
-            "body": json.dumps({"message": "Invalid request - missing httpMethod"})
+            "body": json.dumps({"message": "Invalid request - missing httpMethod"}),
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "*",
+                "Access-Control-Allow-Headers": "*"
+            }
         }
 
     # Handle GET requests to retrieve an employee by ID
@@ -47,13 +52,23 @@ def handler(event, context):
                     "body": json.dumps({
                         "message": "Employee found successfully",
                         "data": response["Item"]
-                    }, default=str)
+                    }, default=str),
+                    "headers": {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Methods": "*",
+                        "Access-Control-Allow-Headers": "*"
+                    }
                 }
         else:
             # Return 404 Not Found if employee doesn't exist
             return {
                 "statusCode": 404,
-                "body": json.dumps({"message": "Employee not found"})
+                "body": json.dumps({"message": "Employee not found"}),
+                "headers": {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "*",
+                    "Access-Control-Allow-Headers": "*"
+                }
             }
 
     # Handle POST requests to create a new employee
@@ -74,5 +89,10 @@ def handler(event, context):
             "body": json.dumps({
                 "message": "Employee created successfully", 
                 "data": {"id": item["id"]}
-            })
+            }),
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "*",
+                "Access-Control-Allow-Headers": "*"
+            }
         }

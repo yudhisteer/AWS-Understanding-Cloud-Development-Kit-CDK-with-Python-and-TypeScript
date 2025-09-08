@@ -22,6 +22,16 @@ class PyRestApiStack(Stack):
             billing=aws_dynamodb.Billing.on_demand(),
         )
 
+        """
+        Add CORS to the API Gateway
+        # so tha twe can also make request from web-browser
+        """
+        cors_options = aws_apigateway.CorsOptions(
+            allow_origins=aws_apigateway.Cors.ALL_ORIGINS,
+            allow_methods=aws_apigateway.Cors.ALL_METHODS,
+            allow_headers=aws_apigateway.Cors.DEFAULT_HEADERS,
+        )
+
 
         """
         Create an API Gateway
@@ -29,7 +39,10 @@ class PyRestApiStack(Stack):
         # create an api gateway
         api = aws_apigateway.RestApi(scope=self, id="PyRestApi")
         # create a resource
-        resource = api.root.add_resource(path_part="employees")
+        resource = api.root.add_resource(
+            path_part="employees",
+            default_cors_preflight_options=cors_options, # add CORS to the resource
+            )
 
         """
         Create a lambda function
