@@ -1,0 +1,15 @@
+@url=https://5vw2zta5p4.execute-api.us-east-1.amazonaws.com/prod/
+
+
+GET {{url}}/employees?id=3836a1a5-e886-427c-b3be-d7c9022a639e
+### GET method
+
+
+POST {{url}}/employees
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "age": 30
+}
+### POST method

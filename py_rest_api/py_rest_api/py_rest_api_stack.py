@@ -3,6 +3,7 @@ from aws_cdk import (
     Stack,
     aws_apigateway,
     aws_lambda,
+    aws_dynamodb,
 )
 from constructs import Construct
 
@@ -11,15 +12,24 @@ class PyRestApiStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
+        """
+        Create a DynamoDB table
+        """
+        table = aws_dynamodb.TableV2(
+            scope=self, 
+            id="PyDynamoDBTable",
+            partition_key=aws_dynamodb.Attribute(name="id", type=aws_dynamodb.AttributeType.STRING),
+            billing=aws_dynamodb.Billing.on_demand(),
+        )
+
 
         """
-        Create a simple API Gateway with a GET method
+        Create an API Gateway
         """
         # create an api gateway
         api = aws_apigateway.RestApi(scope=self, id="PyRestApi")
         # create a resource
-        resource = api.root.add_resource(path_part="hello")
-        
+        resource = api.root.add_resource(path_part="employees")
 
         """
         Create a lambda function
@@ -31,7 +41,13 @@ class PyRestApiStack(Stack):
             runtime=aws_lambda.Runtime.PYTHON_3_10,
             code=aws_lambda.Code.from_asset("services"), # go to services dir
             handler="index.handler", # in services dir, get index.py file and get the handler function
+            environment={
+                "TABLE_NAME": table.table_name
+            } # pass the table name to the lambda function
         )
+
+        # allow lambda to read-write to the table
+        table.grant_read_write_data(lambda_function)
 
 
         """
