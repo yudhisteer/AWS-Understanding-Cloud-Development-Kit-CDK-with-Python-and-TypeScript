@@ -1,0 +1,4 @@
+@url=https://5vw2zta5p4.execute-api.us-east-1.amazonaws.com/prod/
+
+# test the GET method
+GET {{url}}/hello
