@@ -39,8 +39,34 @@ cdk docs: open the CDK documentation
 
 cdk list: list all the stacks in the AWS account
 
+# Example command to put metric data to CloudWatch
+aws cloudwatch put-metric-data --namespace MyCustomNamespace --metric-name MyCustomMetric --value 1 --unit Count --dimensions Key=Value --region us-east-1
+
+# Example command to describe the alarms
+aws cloudwatch describe-alarms --alarm-names "test alarm"
+
+
+```yaml
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 13
+Connection: close
+Date: Mon, 08 Sep 2025 18:26:36 GMT
+X-Amzn-Trace-Id: Root=1-68bf1fdc-1848d6c62fd1f5545e60dd99;Parent=25d0056adb1c0ad2;Sampled=0;Lineage=1:b5d3d54f:0
+x-amzn-RequestId: 1b97b59c-3bf9-4d30-b6c9-1b71805dcd09
+x-amz-apigw-id: QmHqjEtEoAMEfsA=
+X-Cache: Miss from cloudfront
+Via: 1.1 d6a002c70d55f415107618b0750d493c.cloudfront.net (CloudFront)
+X-Amz-Cf-Pop: SEA19-C2
+X-Amz-Cf-Id: KIDa1rMDQhV4Z15EBLYMtlX6h5ZDBPPw03YH6cnv46mLA0ENngso8w==
+
+Hello, World!
+```
+
 
 
 ## References:
 - https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Fn.html
 - https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html
+- https://aws.amazon.com/blogs/compute/best-practices-for-organizing-larger-serverless-applications/
+- https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Embedded_Metric_Format_Specification.html
