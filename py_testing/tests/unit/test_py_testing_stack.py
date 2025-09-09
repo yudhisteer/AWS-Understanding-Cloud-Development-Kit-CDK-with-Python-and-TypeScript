@@ -125,3 +125,43 @@ def test_lambda_actions_with_captors(simple_template):
     # Verify that the captured actions match our expected permissions exactly
     # We sort both arrays to ensure order doesn't affect the comparison
     assert sorted(capture.as_array()) == sorted(expected_actions)
+
+
+def test_bucket_props_with_snapshot(simple_template, snapshot):
+    """ 
+    Test that validates S3 bucket properties using snapshot testing.
+    
+    This test uses the syrupy snapshot testing framework to capture and compare
+    the CloudFormation template structure for our S3 bucket resource.
+    
+    How snapshot testing works:
+    1. First run: pytest --snapshot-update
+       - Generates a snapshot file at py_testing/tests/unit/__snapshots__/test_py_testing_stack.ambr
+       - Captures the current bucket configuration including versioning=True property
+       - The snapshot includes all bucket properties like VersioningConfiguration.Status='Enabled'
+    
+    2. Subsequent runs: pytest
+       - Compares current bucket template against the saved snapshot
+       - Fails if bucket properties change (e.g., versioning disabled, new properties added)
+       - Ensures our bucket configuration remains consistent across code changes
+    
+    Benefits for versioned bucket testing:
+    - Automatically detects if versioning gets accidentally disabled
+    - Captures the exact CloudFormation structure including DeletionPolicy and UpdateReplacePolicy
+    - Validates that versioning configuration is properly set to 'Enabled' status
+    - Provides clear diff output when bucket properties change unexpectedly
+    
+    Important note: If versioning is changed from True to False in the CDK code,
+    this test WILL fail because the snapshot will no longer match. The snapshot
+    would show VersioningConfiguration.Status='Enabled' but the new template would
+    either omit this property or show 'Suspended'. This is actually the desired
+    behavior - it ensures we catch unintended changes to bucket versioning configuration.
+    To update the snapshot after intentional changes, run: pytest --snapshot-update
+    """
+    # Extract all S3 bucket resources from the CloudFormation template
+    # This includes our bucket with versioning enabled and any associated properties
+    bucket_template = simple_template.find_resources("AWS::S3::Bucket")
+    
+    # Compare against snapshot - will include VersioningConfiguration.Status='Enabled'
+    # and other bucket properties like retention policies
+    assert snapshot == bucket_template
