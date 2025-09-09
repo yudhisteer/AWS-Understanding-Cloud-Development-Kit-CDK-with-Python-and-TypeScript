@@ -19,7 +19,7 @@ def handler(event, context):
     print("Calling slack...")
     
     # Slack webhook URL - should be configured as environment variable in production
-    url = "https://hooks.slack.com/services/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"
+    url = "https://hooks.slack.com/services/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"
     
     # Construct the Slack message payload
     msg = {

@@ -1,0 +1,16 @@
+# taken from py_rest_api project API
+@url=https://5vw2zta5p4.execute-api.us-east-1.amazonaws.com/prod/
+
+
+GET {{url}}/employees?id=11111111111
+### GET method
+
+
+POST {{url}}/employees
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "age": 30
+}
+### POST method

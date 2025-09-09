@@ -62,3 +62,29 @@ class PyCwMetricsStack(Stack):
         topic_action = aws_cloudwatch_actions.SnsAction(topic=topic)
         alarm.add_alarm_action(topic_action)  # Send notification when metric breaches threshold
         alarm.add_ok_action(topic_action)     # Send notification when metric returns to normal
+
+
+        """
+        Second Alarm for API
+        """
+        # API Gateway CloudWatch Alarm Configuration
+        # Monitors 4XX client errors from API Gateway and triggers notifications
+        # when error rates exceed acceptable thresholds for proactive issue resolution
+        api_alarm = aws_cloudwatch.Alarm(
+            self,
+            "Py-Api4xxAlarm",  # Unique identifier for the API Gateway 4XX error alarm
+            metric=aws_cloudwatch.Metric(
+                metric_name="4XXError",         # AWS API Gateway built-in metric for client errors
+                namespace="AWS/ApiGateway",     # AWS-managed namespace for API Gateway metrics
+                statistic="Sum",               
+                dimensions_map={
+                    "ApiName": "PyRestApi"      # Filter metric to specific API Gateway instance
+                }
+            ),
+            evaluation_periods=1,  # Trigger immediately on first threshold breach
+            threshold=1,           # Alert on any 4XX errors (zero tolerance for client errors)
+        )
+
+        # API Gateway Alarm Action Configuration
+        api_alarm.add_alarm_action(topic_action)  # Notify when 4XX errors detected
+        api_alarm.add_ok_action(topic_action)     # Notify when error rate returns to normal
