@@ -3,7 +3,7 @@ import aws_cdk.assertions as assertions
 import pytest
 
 from py_testing.py_testing_stack import PySimpleStack
-from aws_cdk.assertions import Match
+from aws_cdk.assertions import Match, Capture
 
 # we can create a simple template function to reuse the template for the tests
 # Extract the template creation into a pytest fixture to avoid code duplication
@@ -87,3 +87,41 @@ def test_lambda_bucket_with_matcher(simple_template):
             }
         })
     )
+
+
+def test_lambda_actions_with_captors(simple_template):
+    """Test that validates Lambda function actions using capture objects."""
+    
+    # Use capture objects to verify that the Lambda function has specific actions
+    # This approach allows for more flexible assertions about the function's behavior
+    # without requiring exact matches in the template
+    
+    # Create a Capture object to extract the actual IAM actions from the policy
+    # This allows us to inspect the values that CDK generates dynamically
+    capture = Capture()
+    
+    # Search for an IAM policy that contains actions and capture those actions
+    # The capture object will store whatever value is found in the "Action" field
+    simple_template.has_resource_properties(
+        type="AWS::IAM::Policy", 
+        props={"PolicyDocument": {
+            "Statement": [
+                {
+                    "Action": capture  # Capture the actual actions defined in the policy
+                }
+            ]
+        }
+    })
+
+    # Define the expected S3 read permissions that should be granted to the Lambda
+    # These are the actions we expect based on our CDK code that calls bucket.grant_read()
+    # can be found from py_testing/cdk.out/PyTestingStack.template.json after doing 'cdk synth'
+    expected_actions = [
+        "s3:GetObject*",   # Allows reading objects from the bucket
+        "s3:GetBucket*",   # Allows getting bucket metadata and properties
+        "s3:List*"         # Allows listing bucket contents
+        ]
+
+    # Verify that the captured actions match our expected permissions exactly
+    # We sort both arrays to ensure order doesn't affect the comparison
+    assert sorted(capture.as_array()) == sorted(expected_actions)
