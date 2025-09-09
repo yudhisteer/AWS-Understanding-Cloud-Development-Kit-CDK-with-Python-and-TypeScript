@@ -63,6 +63,14 @@ X-Amz-Cf-Id: KIDa1rMDQhV4Z15EBLYMtlX6h5ZDBPPw03YH6cnv46mLA0ENngso8w==
 Hello, World!
 ```
 
+URL for web app in CDK Deploy in github actions:
+```
+Outputs:
+PyWebStack.PyWebDistributionDomainName = d3n54c786g94yp.cloudfront.net
+Stack ARN:
+arn:aws:cloudformation:***:503561429929:stack/PyWebStack/f4f6dcc0-8d29-11f0-b8ce-0e34acf8beff
+```
+
 
 
 ## References:
@@ -70,3 +78,4 @@ Hello, World!
 - https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html
 - https://aws.amazon.com/blogs/compute/best-practices-for-organizing-larger-serverless-applications/
 - https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Embedded_Metric_Format_Specification.html
+- https://www.youtube.com/watch?v=Z3YNjMxuN9U&ab_channel=ConciseDeveloper
